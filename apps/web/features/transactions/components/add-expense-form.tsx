@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useId, useState, type FormEvent } from "react";
 import { useAddExpense } from "../hooks/use-add-expense";
 import { TransactionSource, TRANSACTION_SOURCES } from "@gugolko/shared";
 import { Input } from "@/shared/components/ui/input";
@@ -12,10 +12,13 @@ import { Textarea } from "@/shared/components/ui/textarea";
 
 export default function AddExpenseForm() {
     const { submit, loading } = useAddExpense();
-
     const [amount, setAmount] = useState("");
     const [note, setNote] = useState("");
     const [source, setSource] = useState<TransactionSource | string>("");
+
+    const amountId = useId();
+    const noteId = useId();
+    const sourceId = useId();
 
 
 
@@ -24,21 +27,18 @@ export default function AddExpenseForm() {
         setSource(value as TransactionSource)
     }
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
 
-        if (!amount || !source) return;
+        const parsedAmount = Number(amount);
+        if (!source || !Number.isFinite(parsedAmount) || parsedAmount <= 0) {
+            return;
+        }
 
-        console.log("handleSubmit: Source", {
-            amount: Number(amount),
-            note,
-            source: source?.toLowerCase() as TransactionSource,
-            date: Date.now(),
-        })
 
         await submit({
-            amount: Number(amount),
+            amount: parsedAmount,
             note,
             source: source?.toLowerCase() as TransactionSource ?? TRANSACTION_SOURCES.cash, // "default to cash"
             date: Date.now(),
@@ -71,12 +71,14 @@ export default function AddExpenseForm() {
 
                             <FieldGroup>
                                 <Field>
-                                    <FieldLabel>Amount</FieldLabel>
+                                    <FieldLabel htmlFor={amountId}>Amount</FieldLabel>
                                     <Input
-                                        type="string"
+                                        id={amountId}
+                                        type="number"
                                         placeholder="0.00"
                                         value={amount}
                                         onChange={(e) => setAmount(e.target.value)}
+
                                     />
                                     <FieldDescription className="text-xs">
                                         Enter the amount for this expense.
@@ -85,9 +87,9 @@ export default function AddExpenseForm() {
 
 
                                 <Field className="w-full max-w-xs">
-                                    <FieldLabel>Source</FieldLabel>
+                                    <FieldLabel htmlFor={sourceId}>Source</FieldLabel>
                                     <Select value={source} onValueChange={handleChange}>
-                                        <SelectTrigger>
+                                        <SelectTrigger id={sourceId} className="w-full">
                                             <SelectValue placeholder="Choose source" />
                                         </SelectTrigger>
 
@@ -106,8 +108,9 @@ export default function AddExpenseForm() {
                                     </FieldDescription>
                                 </Field>
                                 <Field>
-                                    <FieldLabel>Note</FieldLabel>
+                                    <FieldLabel htmlFor={noteId}>Note</FieldLabel>
                                     <Textarea
+                                        id={noteId}
                                         placeholder="Note"
                                         value={note}
                                         onChange={(e) => setNote(e.target.value)}
@@ -128,7 +131,11 @@ export default function AddExpenseForm() {
                             <Button type="submit" disabled={loading}>
                                 {loading ? "Saving..." : "Add Expense"}
                             </Button>
-                            <Button variant="outline" type="button">
+                            <Button variant="outline" type="button" onClick={() => {
+                                setAmount("")
+                                setNote("")
+                                setSource("")
+                            }}>
                                 Cancel
                             </Button>
                         </Field>

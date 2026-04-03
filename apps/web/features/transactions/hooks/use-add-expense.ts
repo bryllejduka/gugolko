@@ -9,6 +9,8 @@ export const useAddExpense = () => {
     try {
       setLoading(true);
       await transactionsRepository.addExpense(data);
+    } catch (error) {
+      console.error("Failed to add expense:", error);
     } finally {
       setLoading(false);
     }
