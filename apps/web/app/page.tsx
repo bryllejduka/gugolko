@@ -1,22 +1,17 @@
-import { Button } from "@/shared/components/ui/button";
-import { Transaction } from "@gugolko/shared";
+
 
 import Layout from "./layout";
+import AddExpenseForm from "@/features/transactions/components/add-expense-form";
 
 export default function Page() {
-  const test: Transaction = {
-    id: "1",
-    amount: 100,
-    type: "expense",
-    source: "cash",
-    date: Date.now(),
-    createdAt: Date.now(),
-  };
 
   return (
     <Layout>
-      <div>Hello {test.amount}</div>
-      <Button variant={"secondary"}>Click me</Button>
+      <h1>Gugol KO</h1>
+      <div className="flex justify-center items-center">
+        <AddExpenseForm />
+
+      </div>
     </Layout>
   );
 }
