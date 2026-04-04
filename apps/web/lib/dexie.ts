@@ -11,11 +11,12 @@ class AppDB extends Dexie {
   budgets!: Table<Budget, string>;
 
   constructor() {
-    super("gugolko");
+    super("gugolko-db");
 
     this.version(1).stores({
       transactions: `
         id,
+        budgetId,
         month,
         type,
         categoryId,
