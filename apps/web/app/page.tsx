@@ -1,7 +1,7 @@
 
 
 import Layout from "./layout";
-import AddExpenseForm from "@/features/transactions/components/add-expense-form";
+import { AddTransactionForm } from "@/features/transactions/components/add-transaction-form";
 
 export default function Page() {
 
@@ -9,7 +9,7 @@ export default function Page() {
     <Layout>
       <h1>Gugol KO</h1>
       <div className="flex justify-center items-center">
-        <AddExpenseForm />
+        <AddTransactionForm />
 
       </div>
     </Layout>
