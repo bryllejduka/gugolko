@@ -116,7 +116,7 @@ export function AddTransactionForm() {
                             <Label htmlFor={titleId}>Name</Label>
                             <Input id={titleId} name="name" placeholder={type === "income" ? "Salary..." : "Groceries..."} value={title} onChange={(e) => setTitle(e.target.value)} />
                         </Field>
-                        <DatePicker value={date} onChange={setDate} />
+                        <DatePicker defaultValue={date} value={date} onChange={setDate} />
                         <Field>
                             <Label htmlFor={noteId}>Note</Label>
                             <Textarea id={noteId} name="note" rows={4} placeholder="Additional details (optional)" value={note} onChange={(e) => setNote(e.target.value)} />

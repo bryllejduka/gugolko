@@ -82,7 +82,10 @@ export const transactionRepo = {
       updatedAt: Date.now(),
 
       // recompute month if date changes
-      month: updates.date ? getMonthFromDate(updates.date) : existing.month,
+      month:
+        updates.date !== undefined
+          ? getMonthFromDate(updates.date)
+          : existing.month,
     };
 
     await db.transactions.put(updated);
@@ -145,7 +148,10 @@ export const transactionRepo = {
    * Get changes since last sync
    */
   async getChangesSince(lastSyncedAt: number): Promise<TransactionSyncDTO[]> {
-    return db.transactions.where("updatedAt").above(lastSyncedAt).toArray();
+    return db.transactions
+      .where(["updatedAt", "id"])
+      .above(lastSyncedAt)
+      .toArray();
   },
 
   /**

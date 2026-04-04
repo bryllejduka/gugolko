@@ -10,23 +10,26 @@ import { Calendar } from "./ui/calendar"
 
 type DatePickerProps = {
     value?: Date
+    defaultValue?: Date
     onChange?: (date?: Date) => void
     label?: string
     placeholder?: string
 }
 
 
-export function DatePicker({
-    value,
-    onChange,
-    label = "Date",
-    placeholder = "Pick a date",
-}: DatePickerProps) {
-    const [internalDate, setInternalDate] = useState<Date | undefined>(value)
+export function DatePicker(props: DatePickerProps) {
+    const {
+        value,
+        defaultValue,
+        onChange,
+        label = "Date",
+        placeholder = "Pick a date",
+    } = props
+    const [internalDate, setInternalDate] = useState<Date | undefined>(defaultValue)
     const id = useId();
 
 
-    const isControlled = value !== undefined
+    const isControlled = "value" in props
     const selectedDate = isControlled ? value : internalDate
 
     const handleSelect = (date?: Date) => {
