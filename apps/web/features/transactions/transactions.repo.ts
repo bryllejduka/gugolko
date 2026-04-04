@@ -58,6 +58,7 @@ export const transactionRepo = {
       updatedAt: now,
       deletedAt: null,
       ...input,
+      source: input.source || "uncategorized",
       month: getMonthFromDate(input.date),
     }));
 

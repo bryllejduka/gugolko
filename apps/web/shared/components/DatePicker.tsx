@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useId } from "react"
 import { format } from "date-fns"
 import { Field, FieldLabel } from "./ui/field"
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
@@ -13,8 +13,6 @@ type DatePickerProps = {
     onChange?: (date?: Date) => void
     label?: string
     placeholder?: string
-    className?: string
-    disabled?: boolean
 }
 
 
@@ -25,6 +23,7 @@ export function DatePicker({
     placeholder = "Pick a date",
 }: DatePickerProps) {
     const [internalDate, setInternalDate] = useState<Date | undefined>(value)
+    const id = useId();
 
 
     const isControlled = value !== undefined
@@ -39,9 +38,9 @@ export function DatePicker({
 
     return (
         <Field className="mx-auto w-full">
-            <FieldLabel htmlFor="date-picker">{label}</FieldLabel>
+            <FieldLabel htmlFor={id}>{label}</FieldLabel>
             <Popover>
-                <PopoverTrigger render={<Button variant="outline" id="date-picker" className="justify-start font-normal">{selectedDate ? format(selectedDate, "PPP") : <span>{placeholder}</span>}</Button>} />
+                <PopoverTrigger render={<Button variant="outline" id={id} className="justify-start font-normal">{selectedDate ? format(selectedDate, "PPP") : <span>{placeholder}</span>}</Button>} />
                 <PopoverContent className="w-auto p-0" align="start">
                     <Calendar
                         mode="single"

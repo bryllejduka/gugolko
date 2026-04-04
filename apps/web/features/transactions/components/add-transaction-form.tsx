@@ -88,10 +88,9 @@ export function AddTransactionForm() {
                 <DialogTrigger render={<Button variant="outline">Add Transaction</Button>} />
                 <DialogContent className={cn("sm:max-w-sm", type === TRANSACTION_TYPES.income ? "bg-accent" : "bg-muted")}>
                     <DialogHeader>
-                        <DialogTitle>Edit profile</DialogTitle>
+                        <DialogTitle>Add Transaction</DialogTitle>
                         <DialogDescription>
-                            Make changes to your profile here. Click save when you&apos;re
-                            done.
+                            Fill in the details for the new transaction.
                         </DialogDescription>
                     </DialogHeader>
 
@@ -111,8 +110,7 @@ export function AddTransactionForm() {
 
                         <Field>
                             <Label htmlFor={amountId}>Amount</Label>
-                            <Input id={amountId} name="amount" type="number" placeholder="100.00
-                            " value={amount} className="no-spinner" onChange={(e) => setAmount(e.target.value)} />
+                            <Input id={amountId} name="amount" type="number" placeholder="100.00" value={amount} className="no-spinner" onChange={(e) => setAmount(e.target.value)} />
                         </Field>
                         <Field>
                             <Label htmlFor={titleId}>Name</Label>
